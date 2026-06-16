@@ -15,12 +15,10 @@ def transcript():
         return jsonify({"error": "Missing video_id"}), 400
 
     try:
-        transcript_list = YouTubeTranscriptApi.get_transcript(
-            video_id,
-            languages=["it", "en"]
-        )
+        ytt_api = YouTubeTranscriptApi()
+        transcript_list = ytt_api.fetch(video_id, languages=["it", "en"])
 
-        text = " ".join([x["text"] for x in transcript_list])
+        text = " ".join([x.text for x in transcript_list])
 
         return jsonify({
             "video_id": video_id,
